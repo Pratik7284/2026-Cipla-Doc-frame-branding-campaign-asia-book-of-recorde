@@ -277,7 +277,7 @@ export default function CanvasStudio({
   const triggerBase64Export = () => {
     const canvas = canvasRef.current;
     if (canvas && photoImage) {
-      const b64 = canvas.toDataURL('image/png');
+      const b64 = canvas.toDataURL('image/jpeg', 0.82);
       onCreativeGenerated(b64);
     }
   };

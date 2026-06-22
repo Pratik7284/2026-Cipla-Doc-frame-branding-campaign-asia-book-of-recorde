@@ -88,6 +88,46 @@ export default function ManagerPanel({ currentSession, onLogout }: ManagerPanelP
     fetchData();
   }, [currentSession.userId]);
 
+  // Compress original doctor photo to prevent Firestore document size limit errors (max 1MB per document)
+  const compressDoctorPhoto = (base64Str: string, maxWidth = 800, maxHeight = 1000, quality = 0.75): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Scale proportionally
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        } else {
+          resolve(base64Str);
+        }
+      };
+      img.onerror = () => {
+        resolve(base64Str);
+      };
+      img.src = base64Str;
+    });
+  };
+
   // Handle image drag-and-drop file upload conversion
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.target?.files?.[0] || e.target.files?.[0];
@@ -99,7 +139,12 @@ export default function ManagerPanel({ currentSession, onLogout }: ManagerPanelP
       setPhotoFile(file);
       const reader = new FileReader();
       reader.onload = (event) => {
-        setPhotoUrl(event.target?.result as string || '');
+        const rawBase64 = event.target?.result as string || '';
+        compressDoctorPhoto(rawBase64).then((compressed) => {
+          setPhotoUrl(compressed);
+        }).catch(() => {
+          setPhotoUrl(rawBase64);
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -120,7 +165,12 @@ export default function ManagerPanel({ currentSession, onLogout }: ManagerPanelP
       setPhotoFile(file);
       const reader = new FileReader();
       reader.onload = (event) => {
-        setPhotoUrl(event.target?.result as string || '');
+        const rawBase64 = event.target?.result as string || '';
+        compressDoctorPhoto(rawBase64).then((compressed) => {
+          setPhotoUrl(compressed);
+        }).catch(() => {
+          setPhotoUrl(rawBase64);
+        });
       };
       reader.readAsDataURL(file);
     }
