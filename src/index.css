@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  
+  --color-brand-maroon: #7A1512;
+  --color-brand-maroon-dark: #5E0F0F;
+  --color-brand-maroon-light: #944B4B;
+  --color-brand-accent: #E0533C;
+  --color-brand-navy: #1E2E5C;
+}
+
+@layer base {
+  body {
+    background-color: #F8FAFC;
+    color: #1F2937;
+    font-family: var(--font-sans);
+  }
+}

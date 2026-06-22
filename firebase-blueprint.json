@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "Manager": {
+      "title": "Campaign Manager",
+      "description": "A field manager responsible for recruiting doctors and generating branded creatives.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "employeeCode": { "type": "string" },
+        "email": { "type": "string" },
+        "mobile": { "type": "string" },
+        "region": { "type": "string" },
+        "headquarters": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "targetDoctors": { "type": "number" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name", "employeeCode", "email", "username", "password", "targetDoctors"]
+    },
+    "Doctor": {
+      "title": "Doctor Campaign Creative",
+      "description": "Doctor details and their associated campaign frame and generated branding creative.",
+      "type": "object",
+      "properties": {
+        "doctorName": { "type": "string" },
+        "specialization": { "type": "string" },
+        "hospitalName": { "type": "string" },
+        "city": { "type": "string" },
+        "contactNumber": { "type": "string" },
+        "language": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "frameUrl": { "type": "string" },
+        "creativeUrl": { "type": "string" },
+        "status": { "type": "string" },
+        "createdDate": { "type": "string" },
+        "managerId": { "type": "string" },
+        "managerName": { "type": "string" }
+      },
+      "required": ["doctorName", "specialization", "hospitalName", "city", "contactNumber", "language", "status"]
+    }
+  },
+  "firestore": {
+    "/managers/{managerId}": {
+      "schema": "Manager",
+      "description": "Stores details of the 83+ regional campaign managers."
+    },
+    "/doctors/{doctorId}": {
+      "schema": "Doctor",
+      "description": "Stores doctor profiles, upload history, and links to generated photo assets."
+    }
+  }
+}

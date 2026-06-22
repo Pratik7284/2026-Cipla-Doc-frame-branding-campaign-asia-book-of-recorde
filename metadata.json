@@ -1,0 +1,6 @@
+{
+  "name": "Cipla Defeat Hepatitis Branding Platform",
+  "description": "Enterprise campaign management and photo branding studio for CIPLA's Defeat Hepatitis initiative, supporting 83+ managers and 7000+ doctors.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
