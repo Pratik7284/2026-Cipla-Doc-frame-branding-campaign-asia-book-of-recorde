@@ -26,13 +26,6 @@ export default function StatsAnalytics({ doctors, managers }: StatsAnalyticsProp
     return acc;
   }, {} as Record<string, number>);
 
-  // Pre-seed some mock counts to look professional if real count is small (to reflect 3500 doctors scale!)
-  const mockSpecs = ["Hepatologist", "Gastroenterologist", "Internal Medicine", "General Physician", "Pediatrician"];
-  const mockDistribution = [1420, 1150, 580, 250, 100];
-  mockSpecs.forEach((spec, sIdx) => {
-    specializationCounts[spec] = (specializationCounts[spec] || 0) + mockDistribution[sIdx];
-  });
-
   const sortedSpecializations = Object.entries(specializationCounts)
     .map(([spec, count]) => ({ spec, count }))
     .sort((a, b) => b.count - a.count);
@@ -47,12 +40,6 @@ export default function StatsAnalytics({ doctors, managers }: StatsAnalyticsProp
 
   // 2. City Wise Distribution
   const cityCounts: Record<string, number> = {};
-  // Pre-seed mock city values for proper 3500 scale matching
-  const mockCities = ["Mumbai", "Delhi", "Bangalore", "Pune", "Chennai", "Kolkata"];
-  const mockCityDistribution = [1120, 890, 640, 410, 290, 150];
-  mockCities.forEach((ct, cIdx) => {
-    cityCounts[ct] = mockCityDistribution[cIdx];
-  });
 
   doctors.forEach(d => {
     if (!d.city) return;
@@ -68,9 +55,7 @@ export default function StatsAnalytics({ doctors, managers }: StatsAnalyticsProp
   // 3. Manager Wise performance tracking
   const managerPerformance = managers.map(mgr => {
     const mgrDoctors = doctors.filter(d => d.managerId === mgr.id);
-    // Pre-seed 3500 scale performance to look populated
-    const mockContribution = 42 + Math.floor(Math.random() * 8);
-    const actualCount = mgrDoctors.length || mockContribution;
+    const actualCount = mgrDoctors.length;
     const completionPercent = mgr.targetDoctors > 0 
       ? Math.round((actualCount / mgr.targetDoctors) * 100) 
       : 0;
@@ -110,7 +95,7 @@ export default function StatsAnalytics({ doctors, managers }: StatsAnalyticsProp
         return docDate.getDate() === d.getDate() && docDate.getMonth() === d.getMonth();
       }).length;
 
-      trendList.push({ date: dateStr, count: count + 350 + (i === 0 ? 0 : Math.round(Math.random() * 45)) }); // add small variation for historical aesthetic
+      trendList.push({ date: dateStr, count: count });
     }
     return trendList;
   };

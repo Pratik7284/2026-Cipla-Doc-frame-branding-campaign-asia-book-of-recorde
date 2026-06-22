@@ -365,11 +365,11 @@ export default function AdminPanel({ currentSession, onLogout }: AdminPanelProps
 
   // Aggregated analytics values
   const aggregateStats = {
-    totalTarget: 5000,
-    totalAdded: 3500 + doctors.length,
-    remaining: Math.max(0, 5000 - (3500 + doctors.length)),
-    creativesGenerated: 3420 + doctors.filter(d => d.status === 'Generated' || d.status === 'Downloaded').length,
-    pending: 80 + doctors.filter(d => d.status === 'Draft' || d.status === 'Processing').length,
+    totalTarget: 3500,
+    totalAdded: doctors.length,
+    remaining: Math.max(0, 3500 - doctors.length),
+    creativesGenerated: doctors.filter(d => d.status === 'Generated' || d.status === 'Downloaded').length,
+    pending: doctors.filter(d => d.status === 'Draft' || d.status === 'Processing').length,
     failed: 0
   };
   const overallProgress = aggregateStats.totalTarget > 0 
